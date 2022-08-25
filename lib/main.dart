@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/ui/views/home/home_view.dart';
 import 'package:stacked_services/stacked_services.dart';
-
 import 'config/app.locator.dart';
 import 'config/app.router.dart';
 
@@ -16,6 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Movie App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
