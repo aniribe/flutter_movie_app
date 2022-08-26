@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/config/app.router.dart';
 import 'package:stacked/stacked.dart';
-
+import 'package:stacked_services/stacked_services.dart';
+import '../../../config/app.locator.dart';
 import '../../../model/carousel_controller.dart';
 import '../../../model/movie_categories_controller.dart';
+import '../../../service/movie_service.dart';
 
 class HomeViewModel extends BaseViewModel {
+  final _navigationService = locator<NavigationService>();
+  final _movieService = locator<MovieService>();
+
   MovieCategoryController? movieCategoryController;
-  CarouselController? movieCarouselController;
+
+  CarouselController? carouselController;
 
   PageController? pageController;
 
@@ -20,7 +27,7 @@ class HomeViewModel extends BaseViewModel {
 
   @override
   void dispose() {
-    movieCarouselController?.pageController.dispose();
+    pageController?.dispose();
     super.dispose();
   }
 
@@ -44,14 +51,28 @@ class HomeViewModel extends BaseViewModel {
   }
 
   void initializeMovieCarouselController() {
-    // movieCarouselController = CarouselController(
-    //     pageController: PageController(viewportFraction: 0.8, initialPage: 2));
-
-    pageController = PageController(viewportFraction: 0.8, initialPage: 1);
+    carouselController = CarouselController(
+        pageController: PageController(viewportFraction: 0.8, initialPage: 1));
   }
 
   void onCategoryButtonPressed(int index) {
     movieCategoryController?.selectedCategory = index;
     notifyListeners();
   }
+
+  void onPageChanged(int newValue) {
+    carouselController?.initialPage = newValue;
+    notifyListeners();
+  }
+
+  Future<void> onMovieCardTap(int index) async {
+    print('HERE');
+    setChosenMovie(index);
+    await redirectToMovieDetails();
+  }
+
+  void setChosenMovie(int index) => _movieService.setChosenMovie(index);
+
+  Future<void> redirectToMovieDetails() async =>
+      await _navigationService.navigateTo(Routes.movieDetailsView);
 }

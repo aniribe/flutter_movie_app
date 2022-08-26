@@ -11,11 +11,14 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import '../ui/views/home/home_view.dart';
+import '../ui/views/movie_details/movie_details_view.dart';
 
 class Routes {
   static const String homeView = '/';
+  static const String movieDetailsView = '/movie-details-view';
   static const all = <String>{
     homeView,
+    movieDetailsView,
   };
 }
 
@@ -24,6 +27,7 @@ class StackedRouter extends RouterBase {
   List<RouteDef> get routes => _routes;
   final _routes = <RouteDef>[
     RouteDef(Routes.homeView, page: HomeView),
+    RouteDef(Routes.movieDetailsView, page: MovieDetailsView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -31,6 +35,12 @@ class StackedRouter extends RouterBase {
     HomeView: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => const HomeView(),
+        settings: data,
+      );
+    },
+    MovieDetailsView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => const MovieDetailsView(),
         settings: data,
       );
     },
@@ -51,6 +61,22 @@ extension NavigatorStateExtension on NavigationService {
   }) async {
     return navigateTo(
       Routes.homeView,
+      id: routerId,
+      preventDuplicates: preventDuplicates,
+      parameters: parameters,
+      transition: transition,
+    );
+  }
+
+  Future<dynamic> navigateToMovieDetailsView({
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return navigateTo(
+      Routes.movieDetailsView,
       id: routerId,
       preventDuplicates: preventDuplicates,
       parameters: parameters,
