@@ -9,7 +9,7 @@ class MovieCardSection extends StatelessWidget {
   final List<Movie> movies;
   final CarouselController carouselController;
   final void Function(int) onPageChanged;
-  final Future<void> Function(int) onTap;
+  final Function(int) onTap;
 
   const MovieCardSection({
     Key? key,

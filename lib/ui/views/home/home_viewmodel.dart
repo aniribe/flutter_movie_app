@@ -65,10 +65,8 @@ class HomeViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<void> onMovieCardTap(int index) async {
-    print('HERE');
+  void onMovieCardTap(int index) async {
     setChosenMovie(index);
-    await redirectToMovieDetails();
   }
 
   void setChosenMovie(int index) => _movieService.setChosenMovie(index);

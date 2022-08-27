@@ -1,7 +1,8 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import '../../../../constants/app_images.dart';
+import 'package:movie_app/ui/views/movie_details/movie_details_view.dart';
 import '../../../util/ui_helpers.dart';
+import 'movie_card_content.dart';
 
 class MovieCard extends StatelessWidget {
   final String poster;
@@ -21,46 +22,22 @@ class MovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => onTap(index),
-      child: Padding(
+    return Padding(
         padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-        child: Column(
-          children: [
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: AssetImage(poster),
-                  ),
-                  boxShadow: const [defaultShadow],
-                ),
-              ),
-            ),
-            verticalSpace(15),
-            Text(
-              movieName,
-              style: Theme.of(context)
-                  .textTheme
-                  .headline5
-                  ?.copyWith(fontWeight: FontWeight.w600),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset(
-                  AppImages.starFillIcon,
-                  height: 20,
-                ),
-                horizontalSpace(10),
-                Text(rating)
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
+        child: OpenContainer(
+          transitionType: ContainerTransitionType.fadeThrough,
+          tappable: false,
+          closedBuilder: (BuildContext context, VoidCallback openContainer) {
+            return InkWell(
+              onTap: () {
+                onTap(index);
+                openContainer();
+              },
+              child: MovieCardContent(
+                  poster: poster, movieName: movieName, rating: rating),
+            );
+          },
+          openBuilder: (context, action) => const MovieDetailsView(),
+        ));
   }
 }

@@ -1,12 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:movie_app/constants/app_colors.dart';
-import 'package:movie_app/constants/app_images.dart';
 import 'package:movie_app/ui/util/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
-
+import '../../../model/movie.dart';
+import 'components/cast_section.dart';
+import 'components/genre_section.dart';
 import 'components/image_section.dart';
+import 'components/plot_section.dart';
 import 'components/title_section.dart';
 import 'movie_details_viewmodel.dart';
 
@@ -18,14 +17,24 @@ class MovieDetailsView extends StatelessWidget {
     return ViewModelBuilder<MovieDetailsViewModel>.reactive(
       viewModelBuilder: () => MovieDetailsViewModel(),
       builder: (context, model, child) => Scaffold(
-        body: Column(
-          children: [
-            ImageSection(movie: model.movie),
-            TitleSection(
-              title: model.movie.title,
-              year: model.movie.year.toString(),
-            ),
-          ],
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ImageSection(movie: model.movie as Movie),
+              verticalSpace(15),
+              TitleSection(
+                title: model.movie?.title as String,
+                year: model.movie?.year.toString() as String,
+              ),
+              verticalSpace(15),
+              GenreSection(movie: model.movie as Movie),
+              verticalSpace(45),
+              PlotSection(plotText: model.movie?.plot as String),
+              verticalSpace(45),
+              CastSection(movieCast: model.movie?.cast as List<Map>),
+            ],
+          ),
         ),
       ),
     );
