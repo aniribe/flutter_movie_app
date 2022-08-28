@@ -19,10 +19,15 @@ Two pages from app - Movie carousel View and Movie Details View.
 • animations
 
  For MVVM architecture
+
  • stacked:
+
  • stacked_services:
- • build_runner: ^2.0.3
+
+ • build_runner:
+
  • stacked_generator:
+ 
  • injectable_generator:
 
 
